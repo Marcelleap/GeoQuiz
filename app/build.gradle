@@ -3,12 +3,14 @@ plugins {
 }
 
 android {
-    compileSdk 30
+
+    namespace "com.example.geoquiz_v4_sqlite"
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.example.geoquiz_v4_sqlite"
         minSdk 24
-        targetSdk 30
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
