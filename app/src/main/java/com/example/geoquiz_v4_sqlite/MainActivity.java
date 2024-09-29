@@ -165,32 +165,34 @@ public class MainActivity extends AppCompatActivity {
 
                 Cursor cursor = mRespostaDb.queryResposta(null, null);
 
-                if(cursor != null){
-                    if(cursor.getCount() == 0){
+                if (cursor != null) {
+                    if (cursor.getCount() == 0) {
                         mTextViewQuestoesArmazenadas.setText("Nenhuma resposta no banco.");
                         Log.i("MSGS", "Nenhum resultado");
-                    }
+                    } else {
+                        try {
+                            cursor.moveToFirst();
+                            while (!cursor.isAfterLast()) {
 
-                    try {
-                        cursor.moveToFirst();
-                        while(!cursor.isAfterLast()){
+                                @SuppressLint("Range") String uuidQuestao = cursor.getString(cursor.getColumnIndex(RespostaDbSchema.RespostasTbl.Cols.UUID_DA_QUESTAO));
+                                @SuppressLint("Range") String respostaCorreta = cursor.getString(cursor.getColumnIndex(RespostaDbSchema.RespostasTbl.Cols.RESPOSTA_CORRETA));
+                                @SuppressLint("Range") String respostaOferecida = cursor.getString(cursor.getColumnIndex(RespostaDbSchema.RespostasTbl.Cols.RESPOSTA_OFERECIDA));
+                                @SuppressLint("Range") int colou = cursor.getInt(cursor.getColumnIndex(RespostaDbSchema.RespostasTbl.Cols.COLOU));
 
-                            @SuppressLint("Range") String uuidQuestao = cursor.getString(cursor.getColumnIndex(RespostaDbSchema.RespostasTbl.Cols.UUID_DA_QUESTAO));
-                            @SuppressLint("Range") String respostaOferecida = cursor.getString(cursor.getColumnIndex(RespostaDbSchema.RespostasTbl.Cols.RESPOSTA_OFERECIDA));
-                            @SuppressLint("Range") int colou = cursor.getInt(cursor.getColumnIndex(RespostaDbSchema.RespostasTbl.Cols.COLOU));
-                            String texto = "UUID: " + uuidQuestao + ", Resposta: " + respostaOferecida + ", Colou: " + (colou == 1 ? "Sim" : "Não");
-                            mTextViewQuestoesArmazenadas.append(texto + "\n");
-                            cursor.moveToNext();
+                                String texto = "UUID: " + uuidQuestao + "\nResposta correta: " + respostaCorreta +
+                                        "\nResposta oferecida: " + respostaOferecida +
+                                        "\nColou: " + (colou == 1 ? "Sim" : "Não");
+
+                                mTextViewQuestoesArmazenadas.append(texto + "\n\n\n");
+                                cursor.moveToNext();
+                            }
+                        } catch (Exception e) {
+                            Log.e("MSGS", "Erro ao processar cursor: " + e.getMessage());
+                        } finally {
+                            cursor.close();
                         }
-
                     }
-
-                    finally {
-                        cursor.close();
-                    }
-                }
-
-                else{
+                } else {
                     Log.i("MSGS", "cursor nulo!");
                 }
             }
