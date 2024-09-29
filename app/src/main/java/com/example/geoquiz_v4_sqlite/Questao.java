@@ -3,7 +3,7 @@ package com.example.geoquiz_v4_sqlite;
 import java.util.UUID;
 
 public class Questao {
-    private UUID mId;
+    private UUID mId; //Identificador unico univeral
     private int mTextoRespostaId;
     private boolean mRespostaCorreta;
 

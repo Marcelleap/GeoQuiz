@@ -33,34 +33,24 @@ public class QuestaoDB {
     public void updateQuestao(Questao q){
         String uuidString = q.getId().toString();
         ContentValues valores = getValoresConteudo(q);
-       // mDatabase.update(QuestoesDbSchema.QuestoesTbl.NOME, valores, QuestoesDbSchema.QuestoesTbl.Cols.UUID +" = ?",
+        // mDatabase.update(QuestoesDbSchema.QuestoesTbl.NOME, valores, QuestoesDbSchema.QuestoesTbl.Cols.UUID +" = ?",
         //        new String[] {uuidString});
     }
     public Cursor queryQuestao(String clausulaWhere, String[] argsWhere){
         Cursor cursor = mDatabase.query(QuestoesDbSchema.QuestoesTbl.NOME,
                 null,  // todas as colunas
-                    clausulaWhere,
-                    argsWhere,
+                clausulaWhere,
+                argsWhere,
                 null, // sem group by
                 null, // sem having
                 null  // sem order by
-                );
-                return cursor;
+        );
+        return cursor;
     }
     void removeBanco(){
         int delete;
         delete = mDatabase.delete(
                 QuestoesDbSchema.QuestoesTbl.NOME,
                 null, null);
-    }
-
-    public void inserirResposta(String uuidQuestao, int respostaCorreta, String respostaOferecida, int colou) {
-        ContentValues values = new ContentValues();
-        values.put(QuestoesDbSchema.RespostasTbl.Cols.UUID_QUESTAO, uuidQuestao);
-        values.put(QuestoesDbSchema.RespostasTbl.Cols.RESPOSTA_CORRETA, respostaCorreta);
-        values.put(QuestoesDbSchema.RespostasTbl.Cols.RESPOSTA_OFERECIDA, respostaOferecida);
-        values.put(QuestoesDbSchema.RespostasTbl.Cols.COLOU, colou);
-
-        mDatabase.insert(QuestoesDbSchema.RespostasTbl.NAME, null, values);
     }
 }
