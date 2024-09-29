@@ -66,7 +66,17 @@ Este documento descreve as modificações feitas no projeto GeoQuiz original, as
   - **API 33** para suporte às funcionalidades mais recentes e compatibilidade com dispositivos modernos.
 ---
 ### Demostração
+#### Imagens 
+<img src="https://github.com/Marcelleap/GeoQuiz/blob/master/Captura%20I.png">
+<img src="https://github.com/Marcelleap/GeoQuiz/blob/master/Captura%20II.png">
+<img src="https://github.com/Marcelleap/GeoQuiz/blob/master/Captura%20III.png">
 
+#### Video
+<div align="center">
+  <a href="https://youtube.com/shorts/64PiNvggDko">
+    <img src="https://github.com/Marcelleap/GeoQuiz/blob/master/Captura%20I.png" alt="Assista ao vídeo no YouTube" width="400px"/>
+  </a>
+</div>
 ---
 
 ### Histórico de Versões
