@@ -17,15 +17,23 @@ public class QuestoesDBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE "+ QuestoesDbSchema.QuestoesTbl.NOME+ "("+
                 "_id integer PRIMARY KEY autoincrement,"+
-                QuestoesDbSchema.QuestoesTbl.Cols.UUID+ ","+
-                QuestoesDbSchema.QuestoesTbl.Cols.QUESTAO_CORRETA + ","+
-                QuestoesDbSchema.QuestoesTbl.Cols.TEXTO_QUESTAO+ ")");
+                QuestoesDbSchema.QuestoesTbl.Cols.UUID+ "TEXT,"+
+                QuestoesDbSchema.QuestoesTbl.Cols.QUESTAO_CORRETA + "INTEGER,"+
+                QuestoesDbSchema.QuestoesTbl.Cols.TEXTO_QUESTAO+ "TEXT)");
+
+        db.execSQL("CREATE TABLE " + QuestoesDbSchema.RespostasTbl.NAME + " (" +
+                "_id integer PRIMARY KEY autoincrement," +  // I
+                QuestoesDbSchema.RespostasTbl.Cols.UUID_QUESTAO + " TEXT," +
+                QuestoesDbSchema.RespostasTbl.Cols.RESPOSTA_CORRETA + " INTEGER," +
+                QuestoesDbSchema.RespostasTbl.Cols.RESPOSTA_OFERECIDA + " TEXT," +
+                QuestoesDbSchema.RespostasTbl.Cols.COLOU + " INTEGER)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int versaoAntiga, int novaVersao) {
             // Política de upgrade é simplesmente descartar o conteúdo e começar novamente
             db.execSQL("DROP TABLE IF EXISTS " + QuestoesDbSchema.QuestoesTbl.NOME);
+            db.execSQL("DROP TABLE IF EXISTS " + QuestoesDbSchema.RespostasTbl.NAME);
             onCreate(db);
     }
 }

@@ -53,4 +53,14 @@ public class QuestaoDB {
                 QuestoesDbSchema.QuestoesTbl.NOME,
                 null, null);
     }
+
+    public void inserirResposta(String uuidQuestao, int respostaCorreta, String respostaOferecida, int colou) {
+        ContentValues values = new ContentValues();
+        values.put(QuestoesDbSchema.RespostasTbl.Cols.UUID_QUESTAO, uuidQuestao);
+        values.put(QuestoesDbSchema.RespostasTbl.Cols.RESPOSTA_CORRETA, respostaCorreta);
+        values.put(QuestoesDbSchema.RespostasTbl.Cols.RESPOSTA_OFERECIDA, respostaOferecida);
+        values.put(QuestoesDbSchema.RespostasTbl.Cols.COLOU, colou);
+
+        mDatabase.insert(QuestoesDbSchema.RespostasTbl.NAME, null, values);
+    }
 }

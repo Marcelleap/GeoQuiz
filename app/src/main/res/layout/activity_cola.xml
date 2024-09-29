@@ -27,5 +27,14 @@
         android:layout_height="wrap_content"
         android:text="@string/botao_mostra_reposta" />
 
+    <Button
+
+        android:id="@+id/botao_voltar"
+        android:layout_width="179dp"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/arrow_left"
+        android:drawablePadding="4dp"
+        android:text="Voltar" />
+
 </LinearLayout>
 

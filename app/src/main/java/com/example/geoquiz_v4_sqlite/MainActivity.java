@@ -1,7 +1,6 @@
 package com.example.geoquiz_v4_sqlite;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -11,16 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.geoquiz_v4_sqlite.R;
-
-/*
-  Modelo de projeto para a Atividade 1.
-  Será preciso adicionar o cadastro das respostas do usuário ao Quiz, conforme
-  definido no Canvas.
-
-  GitHub: https://github.com/udofritzke/GeoQuiz
- */
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
     private Button mBotaoVerdadeiro;
@@ -28,8 +18,8 @@ public class MainActivity extends AppCompatActivity {
     private Button mBotaoProximo;
     private Button mBotaoMostra;
     private Button mBotaoDeleta;
-
     private Button mBotaoCola;
+
 
     private TextView mTextViewQuestao;
     private TextView mTextViewQuestoesArmazenadas;
@@ -44,25 +34,19 @@ public class MainActivity extends AppCompatActivity {
     };
 
     QuestaoDB mQuestoesDb;
-
     private int mIndiceAtual = 0;
-
     private boolean mEhColador;
 
     @Override
     protected void onCreate(Bundle instanciaSalva) {
         super.onCreate(instanciaSalva);
         setContentView(R.layout.activity_main);
-        //Log.d(TAG, "onCreate()");
-        if (instanciaSalva != null) {
-            mIndiceAtual = instanciaSalva.getInt(CHAVE_INDICE, 0);
-        }
 
+        // Inicializando os botões e TextViews
         mTextViewQuestao = (TextView) findViewById(R.id.view_texto_da_questao);
         atualizaQuestao();
 
         mBotaoVerdadeiro = (Button) findViewById(R.id.botao_verdadeiro);
-        // utilização de classe anônima interna
         mBotaoVerdadeiro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
                 verificaResposta(false);
             }
         });
+
         mBotaoProximo = (Button) findViewById(R.id.botao_proximo);
         mBotaoProximo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,26 +76,16 @@ public class MainActivity extends AppCompatActivity {
         mBotaoCola.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // inicia ColaActivity
-                // Intent intent = new Intent(MainActivity.this, ColaActivity.class);
                 boolean respostaEVerdadeira = mBancoDeQuestoes[mIndiceAtual].isRespostaCorreta();
                 Intent intent = ColaActivity.novoIntent(MainActivity.this, respostaEVerdadeira);
-                //startActivity(intent);
                 startActivityForResult(intent, CODIGO_REQUISICAO_COLA);
             }
         });
 
-
-
-        //Cursor cur = mQuestoesDb.queryQuestao ("_id = ?", val);////(null, null);
-        //String [] val = {"1"};
         mBotaoMostra = (Button) findViewById(R.id.botao_mostra_questoes);
         mBotaoMostra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*
-                  Acesso ao SQLite
-                */
                 if (mQuestoesDb == null) return;
                 if (mTextViewQuestoesArmazenadas == null) {
                     mTextViewQuestoesArmazenadas = (TextView) findViewById(R.id.texto_questoes_a_apresentar);
@@ -123,14 +98,11 @@ public class MainActivity extends AppCompatActivity {
                         mTextViewQuestoesArmazenadas.setText("Nada a apresentar");
                         Log.i("MSGS", "Nenhum resultado");
                     }
-                    //Log.i("MSGS", Integer.toString(cursor.getCount()));
-                    //Log.i("MSGS", "cursor não nulo!");
                     try {
                         cursor.moveToFirst();
                         while (!cursor.isAfterLast()) {
                             String texto = cursor.getString(cursor.getColumnIndex(QuestoesDbSchema.QuestoesTbl.Cols.TEXTO_QUESTAO));
                             Log.i("MSGS", texto);
-
                             mTextViewQuestoesArmazenadas.append(texto + "\n");
                             cursor.moveToNext();
                         }
@@ -141,13 +113,11 @@ public class MainActivity extends AppCompatActivity {
                     Log.i("MSGS", "cursor nulo!");
             }
         });
+
         mBotaoDeleta = (Button) findViewById(R.id.botao_deleta);
         mBotaoDeleta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*
-                  Acesso ao SQLite
-                */
                 if (mQuestoesDb != null) {
                     mQuestoesDb.removeBanco();
                     if (mTextViewQuestoesArmazenadas == null) {
@@ -177,7 +147,17 @@ public class MainActivity extends AppCompatActivity {
             } else
                 idMensagemResposta = R.string.toast_incorreto;
         }
+
         Toast.makeText(this, idMensagemResposta, Toast.LENGTH_SHORT).show();
+
+        // Registrar a resposta no banco
+        if (mQuestoesDb != null) {
+            String uuidQuestao = mBancoDeQuestoes[mIndiceAtual].getId().toString(); // Atualizar aqui
+            int respostaCorretaInt = respostaCorreta ? 1 : 0;
+            String respostaOferecida = respostaPressionada ? "verdadeiro" : "falso";
+            int colou = mEhColador ? 1 : 0; // Se o usuário colou
+            mQuestoesDb.inserirResposta(uuidQuestao, respostaCorretaInt, respostaOferecida, colou);
+        }
     }
 
     @Override
@@ -193,10 +173,9 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         if (codigoRequisicao == CODIGO_REQUISICAO_COLA) {
-            if (dados == null) {
-                return;
+            if (dados != null) {
+                mEhColador = ColaActivity.foiMostradaResposta(dados);
             }
-            mEhColador = ColaActivity.foiMostradaResposta(dados);
         }
     }
 }

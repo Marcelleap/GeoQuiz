@@ -76,9 +76,9 @@
 
         <TextView
             android:id="@+id/texto_questoes_a_apresentar"
+            android:autoLink = "web"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:autoLink="web"
 
             android:lineSpacingExtra="@dimen/espaco_de_linhas"
             android:padding="@dimen/padding_regular"
