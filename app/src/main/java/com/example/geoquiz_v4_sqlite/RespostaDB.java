@@ -43,7 +43,7 @@ public class RespostaDB {
     }
 
     public int removeRespostas() {
-        // Deleta todas as respostas da tabela e retorna o número de linhas deletadas
+        // Deleta todas as respostas da tabela e retorna o numero de linhas deletadas
         return mDatabase.delete(
                 RespostaDbSchema.RespostasTbl.NOME,
                 null,
