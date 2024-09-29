@@ -1,4 +1,4 @@
-# GeoQuiz - Registro de Modificações (Changelog)
+# GeoQuiz - Registro de Modificações 
 
 Este documento descreve as modificações feitas no projeto GeoQuiz original, as mudanças implementadas na nova versão, e as versões do Android Studio, Gradle, SDK e API utilizados em cada etapa do desenvolvimento.
 
@@ -64,6 +64,9 @@ Este documento descreve as modificações feitas no projeto GeoQuiz original, as
 - **SDK 24 e API 33**
   - **SDK 24** como versão mínima de compatibilidade para dispositivos mais antigos.
   - **API 33** para suporte às funcionalidades mais recentes e compatibilidade com dispositivos modernos.
+---
+### Demostração
+
 ---
 
 ### Histórico de Versões
